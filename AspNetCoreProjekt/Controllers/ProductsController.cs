@@ -1,10 +1,9 @@
 ﻿using AspNetCoreProjekt.Data;
 using AspNetCoreProjekt.Models;
+using AspNetCoreProjekt.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,11 +13,13 @@ namespace AspNetCoreProjekt.Controllers
     {
         private readonly ApplicationDbContext _context;
         ILogger<ProductsController> _logger;
+        private readonly IProductCategoryService _productCategoryService;
 
-        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger)
+        public ProductsController(ApplicationDbContext context, ILogger<ProductsController> logger, IProductCategoryService productCategoryService)
         {
             _context = context;
             _logger = logger;
+            _productCategoryService = productCategoryService;
         }
 
         // GET: Products
@@ -49,7 +50,7 @@ namespace AspNetCoreProjekt.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewBag.Categories = new SelectList(new List<ProductCategory>(), "Id", "Name");
+            ViewBag.Categories = _productCategoryService.GetSelectList();
             return View();
         }
 
@@ -72,7 +73,7 @@ namespace AspNetCoreProjekt.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Categories = new SelectList(new List<ProductCategory>(), "Id", "Name");
+            ViewBag.Categories = _productCategoryService.GetSelectList();
 
             if (id == null)
             {

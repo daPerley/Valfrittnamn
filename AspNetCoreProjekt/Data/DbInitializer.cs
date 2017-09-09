@@ -17,7 +17,7 @@ namespace AspNetCoreProjekt.Data
 
             if (!context.ProductCategories.Any())
             {
-                context.AddRange(categories);
+                context.ProductCategories.AddRange(categories);
                 context.SaveChanges();
             }
         }

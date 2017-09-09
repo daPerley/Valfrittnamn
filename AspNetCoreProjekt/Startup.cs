@@ -31,6 +31,7 @@ namespace AspNetCoreProjekt
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IProductCategoryService, ProductCategoryService>();
 
             services.AddMvc();
         }
